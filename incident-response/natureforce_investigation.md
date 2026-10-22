@@ -15,8 +15,8 @@ Investigate a packet capture (PCAP) associated with security alerts involving a 
 
 | Source | Alert |
 |---|---|
-| `107.175.82[.]242:9000` | Windows executable transferred over an unusual TCP port |
-| `195.64.128[.]106:443` | CNCmachineRMS RAT command-and-control traffic |
+| `107.175.82.242:9000` | Windows executable transferred over an unusual TCP port |
+| `195.64.128.106:443` | CNCmachineRMS RAT command-and-control traffic |
 
 The investigation focused on identifying the client associated with the executable transfer and gathering evidence to assess the alert.
 
@@ -137,7 +137,7 @@ However, the PCAP and file reputation alone do not confirm that the executable w
 
 - Search endpoint security logs for the executable name and SHA-256 hash.
 - Review process execution and persistence-related events on `10.10.1.128`.
-- Investigate the alert involving `195.64.128[.]106:443` and determine whether the client communicated with that address.
+- Investigate the alert involving `195.64.128.106:443` and determine whether the client communicated with that address.
 - Correlate the PCAP findings with DNS, proxy, firewall, and EDR telemetry.
 - Preserve relevant evidence and follow the organization's incident response procedures for containment and escalation.
 
