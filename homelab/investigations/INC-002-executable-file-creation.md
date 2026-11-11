@@ -162,8 +162,8 @@ The following screenshots document the investigation:
 
 ### 3. Process Correlation
 
-![Sysmon Event ID 1 showing PowerShell process creation](screenshots/INC-002-process-correlation.jpeg)
+![Sysmon Event ID 1 showing PowerShell process creation](screenshots/INC-002-process-correlation.png)
 
 ### 4. SHA256 Validation
 
-![Matching SHA256 hashes of the original and copied executable](screenshots/INC-002-hash-validation.png)
+![Matching SHA256 hashes of the original and copied executable](screenshots/INC-002-hash-validation.jpeg)
