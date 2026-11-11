@@ -126,4 +126,4 @@ A detection rule identifying suspicious behavior does not automatically establis
 - Encoded command extracted from the Sysmon event.
 - Decoded command used in the controlled simulation.
 
-**Screenshot:** `screenshots/INC-001-splunk-detection.png`
+![Splunk detection showing encoded PowerShell execution](screenshots/INC-001-splunk-detection.png)
