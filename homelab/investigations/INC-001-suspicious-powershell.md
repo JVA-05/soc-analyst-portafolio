@@ -34,8 +34,41 @@ The activity was generated intentionally as part of a controlled SOC home lab ex
 - **Monitored endpoint:** Windows Fujitsu laptop
 
 Kali Linux was used to prepare the Base64-encoded test command. The command was executed locally on the Windows endpoint.
+## 4. Simulation Preparation
 
-## 4. Detection Details
+The test payload was prepared in Kali Linux using Python.
+
+The original PowerShell command was:
+
+```powershell
+Write-Output 'SOC_LAB_INC001'
+```
+
+To simulate encoded PowerShell execution, the command was encoded using Base64 with UTF-16LE character encoding, as required by PowerShell's `-EncodedCommand` parameter.
+
+**Python command executed in Kali Linux:**
+
+```bash
+python3 -c "import base64; print(base64.b64encode(\"Write-Output 'SOC_LAB_INC001'\".encode('utf-16le')).decode())"
+```
+
+**Generated Base64 payload:**
+
+```text
+VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAFMATwBDAF8ATABBAEIAXwBJAE4AQwAwADAAMQAnAA==
+```
+
+The generated payload was then executed on the Windows endpoint using PowerShell.
+
+The expected output was:
+
+```text
+SOC_LAB_INC001
+```
+
+This controlled simulation reproduced an encoded PowerShell execution pattern without using malware or performing harmful actions.
+
+## 5. Detection Details
 
 The detection rule searched for PowerShell process creation events containing encoded command arguments.
 
@@ -68,7 +101,7 @@ Image="*\\powershell.exe"
 powershell.exe -NoProfile -EncodedCommand "VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAFMATwBDAF8ATABBAEIAXwBJAE4AQwAwADAAMQAnAA=="
 ```
 
-## 5. Investigation Performed
+## 6. Investigation Performed
 
 The investigation focused on identifying the PowerShell execution context and understanding the encoded command.
 
@@ -84,7 +117,7 @@ The command was designed to print a harmless test message and did not contain in
 
 The observed parent process was `cmd.exe`, which launched PowerShell.
 
-## 6. Findings
+## 7. Findings
 
 The investigation established the following:
 
@@ -99,7 +132,7 @@ No evidence of malicious execution was identified in the supplied event.
 
 Network activity and file creation were not independently validated as part of this investigation.
 
-## 7. Classification and Decision
+## 8. Classification and Decision
 
 **Final classification: Benign Lab Activity.**
 
@@ -107,7 +140,7 @@ The detection successfully identified a behavior that can be suspicious in real 
 
 The alert was therefore classified as benign laboratory activity and closed.
 
-## 8. Lessons Learned
+## 9. Lessons Learned
 
 This exercise demonstrated:
 
@@ -120,7 +153,7 @@ This exercise demonstrated:
 
 A detection rule identifying suspicious behavior does not automatically establish that a security incident has occurred.
 
-## 9. Evidence
+## 10. Evidence
 
 - Splunk search results showing the detected PowerShell execution.
 - Encoded command extracted from the Sysmon event.
