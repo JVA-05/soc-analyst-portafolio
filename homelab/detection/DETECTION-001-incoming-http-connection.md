@@ -105,6 +105,10 @@ Further investigation would be required in a real SOC environment to determine w
 
 ## 10. Evidence
 
-Suggested screenshots:
-- `DETECTION-001-triggered-alert.png` — Triggered alert in Splunk.
-- `DETECTION-001-spl-query.png` — SPL detection query and results.
+### 1. SPL Detection Query
+
+![SPL Detection Query](screenshots/DETECTION-001-spl-query.png)
+
+### 2. Triggered Alert
+
+![Triggered Alert](screenshots/DETECTION-001-triggered-alert.png)
