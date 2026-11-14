@@ -104,3 +104,24 @@ All testing activities are performed within the controlled laboratory environmen
 The network activity generated for detection validation is intentional and used to verify that endpoint telemetry is correctly collected, forwarded, indexed, and detected.
 
 No production systems or third-party networks are intended to be targeted by these exercises.
+## 8. Architecture Diagram
+
+```mermaid
+flowchart TB
+    K["Kali Linux<br/>192.168.1.103<br/>Controlled Network Activity"]
+
+    F["Fujitsu — Windows Endpoint<br/>192.168.1.102"]
+
+    S["Sysmon<br/>Event Generation"]
+
+    U["Splunk Universal Forwarder<br/>Event Collection"]
+
+    D["Dell — Splunk Enterprise<br/>192.168.1.104"]
+
+    I[("Splunk Index: sysmon")]
+
+    K -->|"Network Traffic"| F
+    F --> S
+    S --> U
+    U -->|"TCP 9997"| D
+    D --> I
