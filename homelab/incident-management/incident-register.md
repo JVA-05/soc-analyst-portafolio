@@ -11,8 +11,8 @@ It tracks incident identification, severity, status, originating detection, and 
 
 | Incident ID | Incident Title | Severity | Status | Detection Alert | Investigation Report |
 |---|---|---|---|---|---|
-| INC-001 | Suspicious PowerShell Execution | Info | Closed | SOC - Suspicious PowerShell | [Investigation Report](../incidents/INC-001-suspicious-powershell-execution.md) |
-| INC-002 | Executable File Creation | Info | Closed | SOC - Executable Created in Downloads | [Investigation Report](../incidents/INC-002-executable-file-creation.md) |
+| INC-001 | Suspicious PowerShell Execution | Info | Closed | SOC - Suspicious PowerShell | [Investigation Report](../investigation/INC-001-suspicious-powershell-execution.md) |
+| INC-002 | Executable File Creation | Info | Closed | SOC - Executable Created in Downloads | [Investigation Report](../investigations/INC-002-executable-file-creation.md) |
 
 ## Incident Status Definitions
 
