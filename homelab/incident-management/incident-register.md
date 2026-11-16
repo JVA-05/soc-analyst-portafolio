@@ -37,7 +37,11 @@ It tracks incident identification, severity, status, originating detection, and 
 5. Incident escalated when necessary.
 6. Investigation documented in an individual incident report.
 7. Incident register updated and case closed when appropriate.
-
+## Github Issue
+| Incident ID | Incident Title | Severity | Status | Issue |
+|---|---|---|---|---|
+| INC-001 | Suspicious Powershell Execution | Info | Closed | [Issue](https://github.com/JVA-05/soc-analyst-portafolio/issues/1)|
+| INC-002 | Executable File Creation | Info | Closed | [Issue](https://github.com/JVA-05/soc-analyst-portafolio/issues/2)|
 ## Notes
 
 - Each confirmed incident must have a unique incident ID.
