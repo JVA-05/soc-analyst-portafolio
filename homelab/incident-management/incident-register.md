@@ -1,25 +1,24 @@
-
 # Incident Register
 
 ## Purpose
 
-This document provides a centralized register of security incidents investigated in the SOC home lab.
+This document provides a centralized register of security incidents and detection validation cases investigated in the SOC home lab.
 
-It tracks incident identification, severity, status, originating detection, and links to detailed investigation reports.
+It tracks incident identification, severity, environment, status, originating detection, and links to investigation reports and GitHub Issues.
 
 ## Incident Tracking
 
-| Incident ID | Incident Title | Severity | Status | Detection Alert | Investigation Report |
-|---|---|---|---|---|---|
-| INC-001 | Suspicious PowerShell Execution | Info | Closed | SOC - Suspicious PowerShell | [Investigation Report](../investigations/INC-001-suspicious-powershell.md) |
-| INC-002 | Executable File Creation | Info | Closed | SOC - Executable Created in Downloads | [Investigation Report](../investigations/INC-002-executable-file-creation.md) |
+| Incident ID | Incident Title | Severity | Environment | Status | Detection Alert | Investigation Report | GitHub Issue |
+|---|---|---|---|---|---|---|---|
+| INC-001 | Suspicious PowerShell Execution | Informational | Controlled Lab | Closed | SOC - Suspicious PowerShell | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-001-suspicious-powershell.md) | [Issue #1](https://github.com/JVA-05/soc-analyst-portafolio/issues/1) |
+| INC-002 | Executable File Creation | Informational | Controlled Lab | Closed | SOC - Executable Created in Downloads | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-002-executable-file-creation.md) | [Issue #2](https://github.com/JVA-05/soc-analyst-portafolio/issues/2) |
 
 ## Incident Status Definitions
 
 - **Open:** Incident identified and awaiting investigation.
 - **In Progress:** Investigation is ongoing.
 - **Escalated:** Incident referred to a higher-level security analyst.
-- **Closed:** Investigation completed and documented.
+- **Closed:** Investigation completed, documented, and resolved or otherwise concluded.
 
 ## Severity Classification
 
@@ -27,6 +26,7 @@ It tracks incident identification, severity, status, originating detection, and 
 - **High:** Suspicious activity with significant potential security impact.
 - **Medium:** Activity requiring further investigation but without confirmed severe impact.
 - **Low:** Activity with limited security impact or low suspicion.
+- **Informational:** Controlled lab tests, simulations, and detection validation activities without evidence of an actual security compromise.
 
 ## Incident Management Workflow
 
@@ -35,17 +35,15 @@ It tracks incident identification, severity, status, originating detection, and 
 3. Relevant Sysmon events and supporting evidence investigated.
 4. Incident severity and priority assigned.
 5. Incident escalated when necessary.
-6. Investigation documented in an individual incident report.
-7. Incident register updated and case closed when appropriate.
-## Github Issue
-| Incident ID | Incident Title | Severity | Status | Issue |
-|---|---|---|---|---|
-| INC-001 | Suspicious Powershell Execution | Info | Closed | [Issue](https://github.com/JVA-05/soc-analyst-portafolio/issues/1)|
-| INC-002 | Executable File Creation | Info | Closed | [Issue](https://github.com/JVA-05/soc-analyst-portafolio/issues/2)|
+6. Investigation documented in an individual investigation report.
+7. GitHub Issue created or updated to track the case.
+8. Incident register updated and case closed when appropriate.
+
 ## Notes
 
-- Each confirmed incident must have a unique incident ID.
-- Every incident should have an individual investigation report.
+- Each tracked case must have a unique incident ID.
+- Every tracked case should have an individual investigation report.
 - False positives should be documented separately and should not automatically be classified as security incidents.
 - Sensitive information, credentials, tokens, and personal data must be redacted from public reports.
 - Incident status and severity must be updated as the investigation progresses.
+- Controlled lab validation cases must be clearly identified as such and must not be presented as real-world security compromises.
