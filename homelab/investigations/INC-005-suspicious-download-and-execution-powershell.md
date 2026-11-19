@@ -1,5 +1,7 @@
 # Suspicious download and execution powershell
 
+# Detection
+| Field | Detail |
 |---|---|
 | Trigered Alert | Suspicious PowerShell Download |
 | Time | 17:20:02 |
