@@ -1,5 +1,6 @@
 # Suspicious download and execution powershell
 
+|---|---|
 | Trigered Alert | Suspicious PowerShell Download |
 | Time | 17:20:02 |
 | File downloaded | INC005-payload.txt |
