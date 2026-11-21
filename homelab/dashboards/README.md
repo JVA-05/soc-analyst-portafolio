@@ -76,7 +76,7 @@ It helps analysts review:
 
 The visualizations help identify potentially suspicious authentication behavior, including repeated failures, unusual login patterns, and access activity that may require further investigation.
 
-Detailed documentation: [Logins](tabs/02-logins.md)
+Detailed documentation: [Authentication](tabs/02-authentication.md)
 
 ### 4.3 PowerShell
 
