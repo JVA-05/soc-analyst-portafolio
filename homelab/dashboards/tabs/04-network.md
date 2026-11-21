@@ -111,4 +111,9 @@ The Network tab completes the network monitoring section of the SOC Analyst L1 d
 By combining network connection timelines, a network topology graph, detailed connection records, DNS activity visualization, and DNS query details, the analyst gains a consolidated view of the monitored workstation's network behavior.
 
 This information supports initial alert triage, evidence collection, investigation documentation, and escalation to higher-level analysts when required.
+
 ## 6. Screenshots
+![Network Dashboard](../screenshots/04-network.png)
+![Network Dashboard](../screenshots/04-network2.png)
+![Network Dashboard](../screenshots/04-network3.png)
+![Network Dashboard](../screenshots/04-network4.png)
