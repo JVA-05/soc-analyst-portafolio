@@ -153,16 +153,20 @@ soc-endpoint-monitoring/
 ├── README.md
 │
 ├── tabs/
-│   ├── 01-general.md
-│   ├── 02-logins.md
-│   ├── 03-powershell.md
+│   ├── 01-summary.md
+│   ├── 02-auuthentication.md
+│   ├── 03-process-execution.md
 │   └── 04-network.md
 │
 └── screenshots/
-    ├── dashboard-general.png
-    ├── dashboard-logins.png
-    ├── dashboard-powershell.png
-    └── dashboard-network.png
+    ├── 01-summary.png
+    ├── 02-authentication.png
+    ├── 03-process-execution.png
+    |── 03-process-execution2.png
+    |── 04-network.png
+    |── 04-network2.png
+    |── 04-network3.png
+    └── 04-network4.png
 ```
 
 ## 9. Scope and Limitations
