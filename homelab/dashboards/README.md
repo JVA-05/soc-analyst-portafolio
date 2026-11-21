@@ -11,33 +11,34 @@
 
 ## 1. Purpose
 
-The SOC — Endpoint Monitoring & Incident Triage dashboard provides a centralized view of security-related activity collected from a monitored Windows endpoint.
+The **SOC — Endpoint Monitoring & Incident Triage** dashboard provides a centralized view of security-related activity collected from a monitored Windows endpoint.
 
-It is designed to support Tier 1 SOC analyst activities by organizing endpoint telemetry into functional monitoring sections that facilitate security event review, suspicious behavior identification, alert triage, and incident investigation.
+It is designed to support Tier 1 SOC Analyst activities by organizing endpoint telemetry into four functional monitoring sections: General, Logins, PowerShell, and Network.
 
-Rather than presenting raw events without context, the dashboard groups relevant information to help analysts understand what is happening on the endpoint, identify unusual activity, and determine when additional investigation is necessary.
+The dashboard helps analysts monitor endpoint activity, identify unusual behavior, review relevant security events, and collect evidence to support incident triage and escalation.
+
+Rather than displaying raw events without context, it combines visualizations, statistical summaries, and detailed event tables to provide a more structured approach to endpoint monitoring and investigation.
 
 ## 2. Dashboard Architecture
 
-The dashboard is divided into five functional sections:
+The dashboard is divided into four functional sections:
 
 | Section | Main Function |
 |---|---|
-| Overview | General endpoint monitoring and security activity summary. |
-| Authentication | Monitoring of successful and failed logon activity. |
-| Process & Execution | Investigation of process creation and PowerShell activity. |
-| Network & Remote Access | Monitoring of network-related and remote access activity. |
-| Investigations | Review and triage of triggered security alerts. |
+| Summary | Provides an overview of endpoint activity and relevant security events. |
+| Logins | Monitors Windows authentication activity and remote access-related events. |
+| PowerShell | Monitors PowerShell execution, command lines, and potentially suspicious activity. |
+| Network | Monitors network connections, internal and external communications, and DNS queries. |
 
-Each section addresses a different aspect of endpoint security monitoring while contributing to the overall investigation workflow.
+Each section focuses on a different aspect of endpoint security monitoring while contributing to the overall SOC L1 investigation workflow.
 
 ## 3. Data Sources
 
-The dashboard uses telemetry collected from the monitored Windows endpoint.
+The dashboard uses telemetry collected from the monitored Windows endpoint through Sysmon and Windows Event Logs.
 
 | Data Source | Index | Purpose |
 |---|---|---|
-| Sysmon | `sysmon` | Process creation and detailed endpoint activity. |
+| Sysmon | `sysmon` | Process creation, network connections, DNS queries, and other endpoint activity. |
 | Windows Event Logs | `wineventlog` | Windows authentication and operating system security events. |
 
 **Monitored endpoint:** `DESKTOP-1BDISO6`
@@ -46,99 +47,103 @@ The dashboard uses telemetry collected from the monitored Windows endpoint.
 
 `Windows Endpoint → Sysmon / Windows Event Logs → Splunk Universal Forwarder → Splunk Enterprise → Dashboard`
 
+The collected events are indexed in Splunk Enterprise and used by the dashboard searches and visualizations.
+
 ## 4. Dashboard Sections
 
-### 4.1 Overview
+### 4.1 Summary
 
-Provides a high-level summary of endpoint activity.
+Provides a high-level overview of the monitored endpoint and its security-related activity.
 
-Its purpose is to give the analyst an initial understanding of the available telemetry and identify areas that may require closer inspection.
+It allows the analyst to obtain an initial understanding of the available telemetry, review important event statistics, and identify areas that may require closer inspection.
 
-Detailed documentation: [Overview](tabs/01-overview.md)
+The section serves as the starting point for monitoring and reviewing endpoint activity.
 
-### 4.2 Authentication
+Detailed documentation: [Summary](tabs/01-summary.md)
 
-Focuses on Windows authentication activity.
+### 4.2 Logins
+
+Focuses on Windows authentication activity and access-related events.
 
 It helps analysts review:
 
-- Successful logons.
+- Successful logon activity.
 - Failed logon attempts.
 - Failed authentication patterns by username.
-- Source IP addresses associated with failed logons.
+- Source IP addresses associated with authentication failures.
 - Detailed authentication event records.
+- Remote access-related activity.
 
-The objective is to identify potentially suspicious authentication behavior, including repeated failures and unusual access patterns.
+The visualizations help identify potentially suspicious authentication behavior, including repeated failures, unusual login patterns, and access activity that may require further investigation.
 
-Detailed documentation: [Authentication](tabs/02-authentication.md)
+Detailed documentation: [Logins](tabs/02-logins.md)
 
-### 4.3 Process & Execution
+### 4.3 PowerShell
 
-Focuses on process creation and command execution activity collected through Sysmon.
+Focuses on PowerShell execution and command activity collected from the monitored endpoint.
 
 It helps analysts review:
 
-- PowerShell execution frequency.
+- PowerShell execution activity.
+- PowerShell command-line details.
 - Processes launched by PowerShell.
-- Unique child processes and tools.
-- Process execution activity.
-- Complete PowerShell command lines.
-- Suspicious PowerShell command-line indicators.
+- Process execution relationships.
+- Command categories and execution patterns.
+- Potentially suspicious PowerShell indicators.
 
-The objective is to identify unusual execution patterns and provide sufficient context for further investigation.
+The objective is to provide visibility into command execution, identify unusual administrative or scripting activity, and give the analyst sufficient context to investigate potentially suspicious behavior.
 
-Detailed documentation: [Process & Execution](tabs/03-process-execution.md)
+Detailed documentation: [PowerShell](tabs/03-powershell.md)
 
-### 4.4 Network & Remote Access
+### 4.4 Network
 
-Focuses on network-related activity and remote access behavior.
+Focuses on network connections and DNS activity generated by the monitored endpoint.
 
-It is intended to help analysts review suspicious connections, remote management activity, and other network events relevant to endpoint security.
+It helps analysts review:
 
-Detailed documentation: [Network & Remote Access](tabs/04-network-remote-access.md)
+- Network connection activity over the last 24 hours.
+- Communication between internal and external IP addresses.
+- Network relationships through a Network Graph visualization.
+- Detailed connection records, including IP addresses, ports, protocols, and responsible processes.
+- DNS query activity over time.
+- Detailed DNS queries and the processes responsible for generating them.
 
-### 4.5 Investigations
+The objective is to provide visibility into endpoint network behavior, identify communication patterns that may require investigation, and correlate DNS activity with network connection records.
 
-Provides a dedicated area for reviewing triggered security alerts and supporting the incident triage process.
+Detailed documentation: [Network](tabs/04-network.md)
 
-Its purpose is to help analysts:
+## 5. SOC Analyst L1 Workflow
 
-- Review triggered detections.
-- Identify alert severity.
-- Access the associated search results.
-- Examine supporting evidence.
-- Determine whether escalation is necessary.
+The dashboard supports the following initial monitoring and investigation workflow:
 
-Detailed documentation: [Investigations](tabs/05-investigations.md)
+1. **Monitor:** Review the General section to understand the endpoint's overall activity.
+2. **Identify:** Examine authentication, PowerShell, and network activity for unusual patterns.
+3. **Investigate:** Review detailed event records and correlate relevant telemetry.
+4. **Triage:** Evaluate the available evidence, determine the potential impact, and assess whether the activity requires further investigation.
+5. **Document:** Record the investigation process, findings, and supporting evidence in an incident report.
+6. **Escalate:** Escalate incidents requiring additional analysis or response to SOC Analyst L2.
 
-## 5. Analyst Workflow
+Suspicious activity must be validated using available telemetry before assigning a verdict or considering an incident confirmed.
 
-The dashboard is designed around the following SOC L1 workflow:
-
-1. **Monitor:** Review the endpoint's general activity.
-2. **Identify:** Recognize unusual authentication, process execution, or network behavior.
-3. **Investigate:** Examine the underlying events and correlate relevant evidence.
-4. **Triage:** Assess the context and potential security impact.
-5. **Escalate:** Document and escalate incidents requiring additional investigation.
-
-The analyst must validate suspicious activity using available telemetry before reaching a conclusion.
-
-## 6. Visualization and Detection Principles
+## 6. Visualization and Monitoring Principles
 
 The dashboard combines different visualization types according to the information being analyzed:
 
-- **Single Values:** Summarize important event counts.
-- **Bar Charts:** Highlight distributions and activity patterns.
+- **Single Values:** Summarize important event counts and activity indicators.
+- **Bar Charts:** Highlight distributions and activity patterns, such as authentication failures.
+- **Line Charts:** Display changes in endpoint activity over time, including network connections and DNS queries.
 - **Tables:** Provide detailed event records for investigation.
-- **Triggered Alert Tables:** Present security detections and provide access to their associated search results.
+- **Network Graph:** Visualizes communication relationships between IP addresses and distinguishes internal from external network addresses.
 
-The visualizations are intended to support investigation and prioritization. A suspicious indicator does not automatically represent malicious activity or a confirmed compromise.
+These visualizations are designed to support monitoring, investigation, and prioritization.
+
+A suspicious indicator, unusual command, DNS query, or network connection does not automatically represent malicious activity or a confirmed compromise. Analyst validation and supporting evidence are required.
 
 ## 7. Screenshots
 
-The `screenshots/` directory contains visual references of the dashboard sections.
+The `screenshots/` directory contains visual references of the implemented dashboard.
 
-These screenshots document the implemented monitoring interface and provide a quick overview of its organization.
+These screenshots document the four monitoring sections and provide a visual overview of the dashboard's organization and functionality.
 
 ## 8. Documentation Structure
 
@@ -148,29 +153,30 @@ soc-endpoint-monitoring/
 ├── README.md
 │
 ├── tabs/
-│   ├── 01-overview.md
-│   ├── 02-authentication.md
-│   ├── 03-process-execution.md
-│   ├── 04-network-remote-access.md
-│   └── 05-investigations.md
+│   ├── 01-general.md
+│   ├── 02-logins.md
+│   ├── 03-powershell.md
+│   └── 04-network.md
 │
 └── screenshots/
-    ├── dashboard-overview.png
-    ├── authentication.png
-    ├── process-execution.png
-    ├── network-remote-access.png
-    └── investigations.png
+    ├── dashboard-general.png
+    ├── dashboard-logins.png
+    ├── dashboard-powershell.png
+    └── dashboard-network.png
 ```
 
 ## 9. Scope and Limitations
 
 - Monitoring currently focuses on one Windows endpoint.
 - Available monitoring capabilities depend on the telemetry collected by Sysmon and Windows Event Logs.
-- Detection searches identify patterns requiring analyst review; they do not independently confirm malicious intent.
+- The dashboard provides visibility into endpoint activity but does not independently confirm malicious behavior.
+- Network and DNS events provide investigation context but do not necessarily establish that a connection was successful or malicious.
+- Internal and external network classification is based on IP address ranges and does not determine whether a connection is legitimate.
 - Investigation conclusions must be supported by available event evidence.
-- The dashboard is a practical SOC training implementation, not a production enterprise SOC platform.
+- Incident documentation and escalation are part of the analyst workflow and are maintained separately from the dashboard.
+- This project is a practical SOC training implementation, not a production enterprise SOC platform.
 
-## Project Information
+## 10. Project Information
 
 | Attribute | Value |
 |---|---|
@@ -179,4 +185,6 @@ soc-endpoint-monitoring/
 | Interface | Dashboard Studio |
 | Focus | SOC Analyst L1 / Blue Team |
 | Endpoint | Windows |
-| Status | Ongoing Development |
+| Data Sources | Sysmon and Windows Event Logs |
+| Monitoring Scope | Single Endpoint |
+| Status | Dashboard Configuration Completed |
