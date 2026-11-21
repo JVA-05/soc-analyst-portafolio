@@ -93,7 +93,7 @@ It helps analysts review:
 
 The objective is to provide visibility into command execution, identify unusual administrative or scripting activity, and give the analyst sufficient context to investigate potentially suspicious behavior.
 
-Detailed documentation: [PowerShell](tabs/03-powershell.md)
+Detailed documentation: [PowerShell](tabs/03-process-execution.md)
 
 ### 4.4 Network
 
