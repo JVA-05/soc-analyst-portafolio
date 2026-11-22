@@ -12,12 +12,15 @@ It tracks incident identification, severity, environment, status, originating de
 |---|---|---|---|---|---|---|---|
 | INC-001 | Suspicious PowerShell Execution | Informational | Controlled Lab | Closed | SOC - Suspicious PowerShell | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-001-suspicious-powershell.md) | [Issue #1](https://github.com/JVA-05/soc-analyst-portafolio/issues/1) |
 | INC-002 | Executable File Creation | Informational | Controlled Lab | Closed | SOC - Executable Created in Downloads | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-002-executable-file-creation.md) | [Issue #2](https://github.com/JVA-05/soc-analyst-portafolio/issues/2) |
+| INC-003 | SMB Brute-Force with Successful Authentication | High | Controlled Lab | Escalated | Multiple Failed Logon Attempts | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-003-smb-brute-force-successful-authentication.md) | [Issue #3](https://github.com/JVA-05/soc-analyst-portafolio/issues/3) |
+| INC-004 | Suspicious WinRM Remote Access | Medium | Controlled Lab | Escalated | Suspicious Remote Access | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-004-suspicious-winrm-remote-access.md) | [Issue #4](https://github.com/JVA-05/soc-analyst-portafolio/issues/4) |
+| INC-005 | Suspicious PowerShell Download | Pending Classification | Controlled Lab | Pending Confirmation | Suspicious PowerShell Download | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-005-suspicious-powershell-download.md) | Pending |
 
 ## Incident Status Definitions
 
 - **Open:** Incident identified and awaiting investigation.
 - **In Progress:** Investigation is ongoing.
-- **Escalated:** Incident referred to a higher-level security analyst.
+- **Escalated:** Incident referred to a higher-level security analyst for further analysis.
 - **Closed:** Investigation completed, documented, and resolved or otherwise concluded.
 
 ## Severity Classification
@@ -36,7 +39,7 @@ It tracks incident identification, severity, environment, status, originating de
 4. Incident severity and priority assigned.
 5. Incident escalated when necessary.
 6. Investigation documented in an individual investigation report.
-7. GitHub Issue created or updated to track the case.
+7. GitHub Issue created or updated to track the case and escalation activities.
 8. Incident register updated and case closed when appropriate.
 
 ## Notes
@@ -47,3 +50,4 @@ It tracks incident identification, severity, environment, status, originating de
 - Sensitive information, credentials, tokens, and personal data must be redacted from public reports.
 - Incident status and severity must be updated as the investigation progresses.
 - Controlled lab validation cases must be clearly identified as such and must not be presented as real-world security compromises.
+- Escalated incidents may remain open until the higher-level analyst completes the review and provides a disposition.
