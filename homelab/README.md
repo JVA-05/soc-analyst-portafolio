@@ -1,150 +1,262 @@
+# SOC Analyst Home Lab — Endpoint Monitoring, Threat Detection & Incident Investigation
 
-# SOC Analyst Home Lab — Windows Monitoring, Threat Detection & Incident Investigation
+## 1. Project Overview
 
-## Project Overview
+This project documents the development and operation of a personal SOC Analyst home lab designed to simulate essential Tier 1 Security Operations Center (SOC) activities.
 
-This project documents the development of a personal SOC Analyst home lab designed to simulate essential Tier 1 Security Operations Center (SOC) activities.
+The environment provides centralized Windows endpoint monitoring, security event collection, SPL-based detection, alert management, dashboard visualization, incident investigation, and L1-to-L2 escalation exercises.
 
-The environment focuses on Windows endpoint monitoring, centralized log collection, security event detection, alert validation, incident investigation and escalation procedures.
+The main objective is to develop practical skills in SIEM operations, endpoint telemetry analysis, security monitoring, alert triage, and incident investigation using a controlled multi-system environment.
 
-The main objective is to gain practical experience with SIEM operations and develop the technical and analytical skills required for a SOC Analyst L1 position.
-
-## Lab Architecture
+## 2. Lab Architecture
 
 The laboratory consists of two physical computers and a virtualized security testing environment.
 
-| System | Role | Tools |
+| System | Role | Operating System | Main Technologies |
+|---|---|---|---|
+| Dell Inspiron 15 3535 | Centralized SIEM server | Windows 11 | Splunk Enterprise |
+| Fujitsu Laptop | Monitored endpoint | Windows 10 Pro | Sysmon, Splunk Universal Forwarder |
+| Kali Linux VM | Security testing system | Kali Linux | Network and controlled security testing tools |
+
+### 2.1 Network Configuration
+
+The systems communicate through a local network.
+
+| System | IP Address | Role |
 |---|---|---|
-| Dell Inspiron 15 3535 | SIEM workstation | Windows 11, Splunk Enterprise |
-| Fujitsu Laptop | Monitored Windows endpoint | Windows, Sysmon, Splunk Universal Forwarder |
-| Kali Linux VM | Controlled attacker simulation | Kali Linux |
+| Dell Inspiron | `192.168.1.104` | Splunk Enterprise |
+| Fujitsu | `192.168.1.102` | Monitored Windows endpoint |
+| Kali Linux | `192.168.1.103` | Controlled testing system |
 
-### Architecture Overview
+**Relevant communication ports:**
 
-The Fujitsu endpoint generates Windows and Sysmon security events.
+- `9997/TCP` — Splunk receiving port for forwarded events.
+- `8000/TCP` — Splunk Web interface.
 
-Splunk Universal Forwarder collects the configured event logs and forwards them to Splunk Enterprise running on the Dell workstation.
+### 2.2 Event Collection Architecture
 
-Splunk Enterprise indexes the received telemetry and provides the environment for searching, detection development, scheduled alerts and investigation.
+The Fujitsu endpoint generates security telemetry through Sysmon.
 
-The Kali Linux virtual machine is intended to generate controlled security testing activity for future detection and investigation scenarios.
+Splunk Universal Forwarder collects the configured Sysmon Operational events and forwards them to Splunk Enterprise running on the Dell workstation.
 
-## Technologies & Tools
+Splunk Enterprise indexes the received events and provides the platform for security searches, detection rules, scheduled alerts, dashboard monitoring, and incident investigations.
 
-- **Splunk Enterprise:** SIEM platform for centralized log collection, searching, detection and alert management.
-- **Sysmon:** Windows system monitoring and detailed event generation.
-- **Splunk Universal Forwarder:** Endpoint log collection and forwarding.
-- **Splunk Add-on for Microsoft Sysmon:** Improved interpretation and field extraction of Sysmon events.
-- **Kali Linux:** Controlled security testing and attacker behavior simulation.
-- **Windows PowerShell:** Generation and investigation of endpoint activity.
-- **Splunk Processing Language (SPL):** Security event searches and detection logic.
+Kali Linux is used to generate controlled testing activity against the laboratory endpoint.
 
-## Infrastructure & Log Collection
+For detailed infrastructure information, see the [Architecture Documentation](./architecture/README.md).
 
-### Splunk Enterprise
+## 3. Technologies & Tools
 
-Installed on the Dell workstation and configured to receive forwarded events through TCP port 9997.
+| Category | Technology | Purpose |
+|---|---|---|
+| SIEM | Splunk Enterprise 10.6.1.1 | Centralized event collection, searching, alerting, and investigation |
+| Endpoint Monitoring | Sysmon | Windows endpoint telemetry generation |
+| Log Collection | Splunk Universal Forwarder | Event collection and forwarding |
+| Sysmon Integration | Splunk Add-on for Microsoft Sysmon | Sysmon event interpretation and field extraction |
+| Security Testing | Kali Linux | Controlled testing and activity simulation |
+| Endpoint Analysis | Windows Event Logs and PowerShell | Process, authentication, and endpoint activity investigation |
+| Detection Engineering | Splunk Processing Language (SPL) | Detection searches and alert logic |
+| Documentation | GitHub and Markdown | Investigation reports, technical documentation, and incident tracking |
 
-### Windows Endpoint Monitoring
+## 4. Infrastructure & Log Collection
 
-Sysmon was deployed on the Fujitsu laptop to collect detailed endpoint activity.
+### 4.1 Splunk Enterprise
 
-### Log Forwarding
+Splunk Enterprise is installed on the Dell workstation and acts as the centralized SIEM platform.
 
-Splunk Universal Forwarder was configured to transmit Sysmon Operational events to the central Splunk instance.
+It provides:
 
-### Data Verification
+- Centralized event indexing.
+- SPL-based searches.
+- Scheduled alert execution.
+- Alert management and suppression.
+- Dashboard visualization.
+- Security investigation capabilities.
 
-Received Sysmon telemetry is indexed under:
+### 4.2 Windows Endpoint Monitoring
+
+Sysmon is deployed on the Fujitsu endpoint to generate detailed endpoint telemetry.
+
+The monitored event types include:
+
+- Event ID 1 — Process Creation.
+- Event ID 3 — Network Connection.
+- Event ID 11 — File Create.
+- Additional Sysmon event types available for investigation.
+
+### 4.3 Log Forwarding
+
+Splunk Universal Forwarder collects events from the following Windows Event Log channel:
+
+`Microsoft-Windows-Sysmon/Operational`
+
+The collected events are forwarded to Splunk Enterprise through TCP port `9997`.
+
+The primary Sysmon telemetry is stored in:
 
 `index=sysmon`
 
-Process creation events (Event ID 1) have been successfully collected and analyzed.
+Windows authentication events are also used in the laboratory's authentication and remote access investigations.
 
-## Detection Engineering
+### 4.4 Data Collection Verification
 
-Initial detection use cases have been developed using Splunk Processing Language (SPL).
+Data reception and field extraction have been verified using SPL searches.
 
-Current detection scenarios:
+The verification process includes:
 
-| Detection Use Case | Sysmon Event |
+- Confirming events arrive from the Fujitsu endpoint.
+- Checking event counts and available Sysmon Event IDs.
+- Inspecting process creation fields.
+- Verifying executable paths, command lines, users, and parent processes.
+
+Detailed configuration and verification procedures are documented in [Splunk Data Collection](./architecture/splunk-data-collection.md).
+
+## 5. Detection Engineering
+
+The laboratory includes **12 documented detection use cases** developed using Splunk Processing Language (SPL).
+
+The detections are organized into four categories.
+
+| Category | Detection IDs | Focus |
+|---|---|---|
+| Authentication | DET-001 | Multiple failed logon attempts |
+| Process Execution | DET-002 to DET-007 | Executable creation, Office spawning shells, PowerShell, and LOLBins |
+| Network | DET-008 to DET-011 | Incoming HTTP connections, PowerShell network activity, suspicious outbound connections, and PowerShell downloads |
+| Remote Access | DET-012 | Suspicious remote access activity |
+
+The detection searches are designed to identify potentially suspicious behavior and provide supporting telemetry for further investigation.
+
+Detection alerts are configured in Splunk Enterprise. Alert suppression is used to reduce duplicate notifications.
+
+The presence of a detection match does not automatically establish malicious activity. Alerts require contextual analysis and investigation.
+
+See the [Detection Documentation](./detection/README.md) for the complete detection inventory and SPL logic.
+
+## 6. Security Monitoring Dashboard
+
+A four-tab monitoring dashboard was developed using Splunk Dashboard Studio.
+
+**Dashboard:** SOC — Endpoint Monitoring & Incident Triage
+
+**Dashboard ID:** `soc_endpoint_monitoring`
+
+The dashboard provides visibility into the monitored endpoint and its security activity.
+
+| Dashboard Tab | Monitoring Focus |
 |---|---|
-| PowerShell Process Execution | Event ID 1 |
-| Suspicious PowerShell Execution | Event ID 1 |
-| Office Applications Spawning Command-Line Interpreters | Event ID 1 |
-| LOLBins Execution | Event ID 1 |
-| PowerShell Network Connections | Event ID 3 |
-| Executable File Creation in Downloads | Event ID 11 |
+| Summary | General endpoint monitoring and security activity overview |
+| Authentication | Successful and failed logon activity |
+| Process & Execution | Process creation, command-line activity, and suspicious execution indicators |
+| Network & Remote Access | Network connections, destination information, and remote access activity |
 
-These detection rules identify potentially suspicious activity and require additional investigation before determining whether an actual security incident has occurred.
+The dashboard supports initial alert review and investigation by providing relevant event information in a centralized interface.
 
-## Alert Management & Validation
+See the [Dashboard Documentation](./dashboards/README.md) for tab descriptions and screenshots.
 
-Scheduled alerts have been configured in Splunk Enterprise.
+## 7. Incident Investigation
 
-The alerts use search-result-based trigger conditions and the Add to Triggered Alerts action.
+The laboratory includes five documented investigations covering different security scenarios.
 
-Initial controlled tests have demonstrated successful alert generation for PowerShell process execution.
+| Incident ID | Investigation |
+|---|---|
+| INC-001 | Suspicious PowerShell Execution |
+| INC-002 | Executable File Creation |
+| INC-003 | SMB Brute-Force with Successful Authentication |
+| INC-004 | Suspicious WinRM Remote Access |
+| INC-005 | Suspicious PowerShell Download |
 
-Further validation of the remaining detection use cases is ongoing.
-
-## Incident Investigation Workflow
-
-The project includes practical exercises designed to simulate Tier 1 SOC Analyst responsibilities.
+The investigations use collected endpoint telemetry, SPL searches, and supporting evidence to examine suspicious activity.
 
 The investigation methodology includes:
 
-1. Alert reception and initial triage.
-2. Identification of affected endpoints and users.
-3. Process execution analysis.
-4. Parent-child process relationship investigation.
-5. Examination of command-line arguments.
-6. Correlation with related endpoint events.
-7. False positive and true positive assessment.
-8. Incident documentation and escalation.
+1. Alert identification and initial assessment.
+2. Identification of affected hosts and accounts.
+3. Collection of relevant security events.
+4. Process and command-line analysis.
+5. Correlation of related endpoint and network events.
+6. Evaluation of findings and activity classification.
+7. Documentation of evidence and conclusions.
+8. Escalation when additional analysis is required.
 
-## Incident Escalation
+All cases are documented as controlled laboratory exercises and are not presented as actual compromises of production environments.
 
-A structured L1-to-L2 escalation workflow is being developed.
+See the [Investigation Reports](./investigations/) for individual case documentation.
 
-The objective is to document how a Tier 1 analyst collects evidence, evaluates suspicious activity, assesses severity and communicates findings to a Tier 2 analyst.
+## 8. Incident Management & Escalation
 
-## Project Documentation
+Incident tracking and escalation exercises are documented using GitHub Issues.
 
-Detailed configuration guides, detection logic, investigation reports and supporting screenshots will be maintained in separate project directories.
+The incident management process provides a way to track investigation progress, preserve evidence, communicate findings, and document L1-to-L2 escalation decisions.
 
-- `architecture/` — Network and laboratory architecture.
-- `configuration/` — Sysmon, Universal Forwarder and Splunk configuration.
-- `detections/` — SPL detection searches and their validation.
-- `investigations/` — Practical SOC investigation reports.
-- `escalation/` — Incident escalation documentation.
-- `screenshots/` — Supporting technical evidence.
+The incident register maintains references to:
 
-## Skills Practiced
+- Incident identification.
+- Severity and status.
+- Associated detection alerts.
+- Investigation reports.
+- GitHub Issues.
 
-- SIEM administration and monitoring.
-- Splunk SPL searches.
-- Windows endpoint monitoring.
-- Sysmon event analysis.
+Escalation exercises focus on communicating relevant technical findings and supporting evidence to a higher-level analyst.
+
+See the [Incident Management Documentation](./incident-management/) and [Playbooks](./playbooks/README.md).
+
+## 9. Project Documentation
+
+The laboratory documentation is organized into the following directories:
+
+| Directory | Description |
+|---|---|
+| `architecture/` | Infrastructure architecture, network configuration, and data collection documentation |
+| `configuration/` | Splunk Universal Forwarder and Sysmon configuration |
+| `dashboards/` | Dashboard documentation, individual tabs, and screenshots |
+| `detection/` | Twelve documented SPL detection use cases |
+| `investigations/` | Five security investigation reports and supporting evidence |
+| `incident-management/` | Incident register and incident tracking documentation |
+| `playbooks/` | Investigation playbooks and operational guidance |
+
+## 10. Skills Practiced
+
+This project provides hands-on practice in:
+
+- SIEM monitoring and event analysis.
+- Splunk Enterprise administration and searching.
+- SPL query development.
+- Windows endpoint monitoring with Sysmon.
 - Log collection and forwarding troubleshooting.
+- Process execution and PowerShell investigation.
+- Authentication event analysis.
+- Network connection monitoring.
 - Detection engineering fundamentals.
-- Alert validation and triage.
-- Incident investigation.
-- Security event classification.
-- SOC documentation and escalation procedures.
+- Alert management and triage.
+- Evidence collection and event correlation.
+- Incident investigation and classification.
+- L1-to-L2 escalation documentation.
+- Technical reporting and security documentation.
 
-## Project Status
+## 11. Project Status
 
-**Status: Work in Progress**
+**Status: Core Lab Infrastructure Operational**
 
-The core log collection infrastructure is operational, and initial detection searches and scheduled alerts have been configured and tested.
+The main laboratory infrastructure is configured and operational.
 
-Current development priorities:
+The project includes:
 
-- Validate all detection use cases.
-- Complete controlled security testing scenarios.
-- Investigate and classify multiple alerts.
-- Develop practical incident escalation reports.
-- Expand endpoint and network monitoring capabilities.
+- Centralized Sysmon event collection.
+- Splunk Enterprise indexing and searching.
+- Configured detection searches and scheduled alerts.
+- Alert suppression to reduce duplicate notifications.
+- A four-tab Splunk Dashboard Studio dashboard.
+- Twelve documented detection use cases.
+- Five documented security investigations.
+- Incident tracking and L1-to-L2 escalation exercises.
+- Architecture, configuration, and operational documentation.
 
-All security testing is performed within authorized laboratory systems and controlled environments.
+The current focus is on reviewing documentation quality, maintaining technical consistency, and improving the presentation of the portfolio.
+
+## 12. Security Disclaimer
+
+This is an educational SOC home lab and does not represent a production Security Operations Center.
+
+All security testing activities are conducted within controlled laboratory systems and authorized training environments.
+
+The purpose of this project is to demonstrate practical defensive cybersecurity skills through endpoint monitoring, detection development, alert investigation, and incident documentation.
