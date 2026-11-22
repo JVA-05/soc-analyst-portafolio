@@ -120,7 +120,7 @@ The process evidence provided additional context supporting the identification o
 
 ## Related Incidents
 
-- [INC-004 — Suspicious WinRM Remote Access](../../incidents/INC-004-suspicious-winrm-remote-access.md)
+- [INC-004 — Suspicious WinRM Remote Access](../../investigations/INC-004-suspicious-winrm-remote-access.md)
 
 ## MITRE ATT&CK Mapping
 
