@@ -180,7 +180,7 @@ The investigation methodology includes:
 
 All cases are documented as controlled laboratory exercises and are not presented as actual compromises of production environments.
 
-See the [Investigation Reports](./incident-management/investigations/) for individual case documentation.
+See the [Investigation Reports](./investigations/) for individual case documentation.
 
 ## 8. Incident Management & Escalation
 
