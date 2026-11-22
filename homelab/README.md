@@ -180,7 +180,7 @@ The investigation methodology includes:
 
 All cases are documented as controlled laboratory exercises and are not presented as actual compromises of production environments.
 
-See the [Investigation Reports](./investigations/) for individual case documentation.
+See the [Investigation Reports](./incident-management/investigations/) for individual case documentation.
 
 ## 8. Incident Management & Escalation
 
@@ -210,7 +210,7 @@ The laboratory documentation is organized into the following directories:
 | `configuration/` | Splunk Universal Forwarder and Sysmon configuration |
 | `dashboards/` | Dashboard documentation, individual tabs, and screenshots |
 | `detection/` | Twelve documented SPL detection use cases |
-| `investigations/` | Five security investigation reports and supporting evidence |
+| `incident-management/investigations/` | Five security investigation reports and supporting evidence |
 | `incident-management/` | Incident register and incident tracking documentation |
 | `playbooks/` | Investigation playbooks and operational guidance |
 
@@ -249,6 +249,7 @@ The project includes:
 - Twelve documented detection use cases.
 - Five documented security investigations.
 - Incident tracking and L1-to-L2 escalation exercises.
+- Documented investigation playbooks.
 - Architecture, configuration, and operational documentation.
 
 The current focus is on reviewing documentation quality, maintaining technical consistency, and improving the presentation of the portfolio.
