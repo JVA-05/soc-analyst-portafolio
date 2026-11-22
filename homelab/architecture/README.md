@@ -1,181 +1,104 @@
-# SOC Homelab Architecture
+# SOC Home Lab Architecture
 
-## Overview
+## 1. Overview
 
-This document describes the architecture of the SOC homelab, including its infrastructure, network configuration, endpoint monitoring components, and event collection workflow.
+This section documents the architecture and log collection infrastructure of the SOC home lab.
 
-The environment is designed to simulate a small-scale Security Operations Center (SOC), allowing security events to be generated, collected, centralized, monitored, and investigated using Splunk Enterprise.
+The environment consists of three systems connected through a local network:
 
-The lab consists of three primary systems:
+- **Dell Inspiron:** Hosts Splunk Enterprise and serves as the centralized SIEM.
+- **Fujitsu Laptop:** Acts as the monitored Windows endpoint, generating Sysmon telemetry and forwarding events through Splunk Universal Forwarder.
+- **Kali Linux:** Generates controlled network activity for detection validation and security investigation exercises.
 
-- **Dell:** SIEM server running Splunk Enterprise.
-- **Fujitsu:** Monitored Windows endpoint running Sysmon and Splunk Universal Forwarder.
-- **Kali Linux:** Testing system used to generate controlled security-related activity.
+The architecture is designed to support hands-on SOC Analyst Level 1 activities, including endpoint monitoring, centralized log collection, detection, alert triage, and incident investigation.
 
-## Infrastructure Components
+## 2. Architecture Documentation
 
-| System | Operating System | IP Address | Role |
-|---|---|---|---|
-| Dell Inspiron 15 3535 | Windows 11 | `192.168.1.104` | Splunk Enterprise server |
-| Fujitsu | Windows 10 Pro | `192.168.1.102` | Monitored endpoint |
-| Kali Linux | Kali Linux | `192.168.1.103` | Security testing system |
+The following documents describe the laboratory infrastructure and its operation.
 
-**Network:** `192.168.1.0/24`
+### 2.1 SOC Lab Architecture
 
-All three systems are connected to the same local network.
+**File:** [`soc-lab-architecture.md`](./soc-lab-architecture.md)
 
-## System Roles
+Provides an overview of the complete laboratory infrastructure, including:
 
-### 1. Dell — SIEM Server
+- System specifications and roles.
+- Hostnames and IP addressing.
+- Local network architecture.
+- Communication between laboratory systems.
+- Sysmon and Splunk Universal Forwarder integration.
+- Event collection and data flow.
+- Architecture diagram.
+- Project scope and security considerations.
 
-**Operating System:** Windows 11  
-**IP Address:** `192.168.1.104`  
-**SIEM Platform:** Splunk Enterprise 10.6.1.1
+### 2.2 Splunk Data Collection
 
-The Dell system acts as the central SIEM server.
+**File:** [`splunk-data-collection.md`](./splunk-data-collection.md)
 
-Its responsibilities include:
+Documents the technical implementation and verification of the Windows event collection pipeline, including:
 
-- Receiving forwarded telemetry from the monitored endpoint.
-- Indexing and storing collected events.
-- Providing SPL-based searches and investigations.
-- Executing scheduled detection searches and alerts.
-- Displaying security information through the SOC dashboard.
+- Sysmon Operational event collection.
+- Splunk Universal Forwarder configuration.
+- Windows Event Log input configuration.
+- Splunk receiving configuration.
+- TCP port 9997 communication.
+- Event indexing and data reception verification.
+- Sysmon Event ID availability.
+- Field extraction verification.
 
-Splunk Enterprise receives forwarded events through TCP port `9997`.
+## 3. Infrastructure Summary
 
-The Splunk Web interface is available through port `8000`.
-
-### 2. Fujitsu — Monitored Endpoint
-
-**Operating System:** Windows 10 Pro  
-**Hostname:** `DESKTOP-1BDISO6`  
-**IP Address:** `192.168.1.102`
-
-The Fujitsu system acts as the monitored Windows endpoint.
-
-It runs two primary monitoring components:
-
-**Sysmon**
-
-Sysmon provides detailed endpoint telemetry, including:
-
-- Process creation events.
-- Network connection events.
-- File creation events.
-
-Relevant Sysmon Event IDs include:
-
-| Event ID | Description |
-|---|---|
-| 1 | Process Creation |
-| 3 | Network Connection |
-| 11 | File Create |
-
-**Splunk Universal Forwarder**
-
-The Universal Forwarder collects configured Windows event logs and forwards them to the Splunk Enterprise server.
-
-Its responsibilities include:
-
-- Collecting Sysmon Operational events.
-- Collecting configured Windows Event Logs.
-- Forwarding events to the Dell SIEM server.
-- Maintaining communication with the configured receiving endpoint.
-
-### 3. Kali Linux — Testing System
-
-**Operating System:** Kali Linux  
-**IP Address:** `192.168.1.103`
-
-Kali Linux is used to generate controlled security-related activity for laboratory testing.
-
-It supports scenarios such as:
-
-- Authentication testing.
-- Network connection testing.
-- Remote access simulations.
-- Controlled interaction with the monitored Windows endpoint.
-
-Kali is used as a testing system, not as part of the production monitoring infrastructure.
-
-Since Kali and the Fujitsu endpoint share the same local network, these activities simulate an internal network threat scenario rather than a connection originating from a genuinely external network.
-
-## Event Collection Architecture
-
-The endpoint monitoring and event collection workflow is based on Sysmon and Splunk Universal Forwarder.
-
-The process follows these stages:
-
-1. **Activity Generation:** User activity or controlled security testing generates events on the Fujitsu endpoint.
-2. **Telemetry Collection:** Sysmon records supported endpoint activity, while Windows records security and operational events.
-3. **Event Forwarding:** Splunk Universal Forwarder collects the configured event sources.
-4. **Centralized Ingestion:** Events are forwarded to the Dell system through TCP port `9997`.
-5. **Indexing:** Splunk Enterprise processes and stores the incoming events.
-6. **Security Monitoring:** SPL searches, detection rules, alerts, and dashboards provide visibility into the collected telemetry.
-7. **Investigation:** The analyst reviews relevant events, correlates evidence, and documents findings.
-
-## Data Sources and Indexes
-
-The laboratory uses separate Splunk indexes for the principal event sources.
-
-| Index | Data Source | Purpose |
+| Component | System | Primary Role |
 |---|---|---|
-| `sysmon` | Sysmon Operational Log | Endpoint activity and process telemetry |
-| `wineventlog` | Windows Event Logs | Windows authentication and security events |
+| SIEM Server | Dell Inspiron - Windows 11 | Splunk Enterprise |
+| Monitored Endpoint | Fujitsu - Windows 10 Pro | Sysmon and Universal Forwarder |
+| Testing Machine | Kali Linux | Controlled security testing |
 
-The `sysmon` index supports investigations involving process execution, network connections, and file creation.
+### Network Configuration
 
-The `wineventlog` index supports investigations involving Windows authentication and security events.
+| System | IP Address |
+|---|---|
+| Dell - SIEM Server | `192.168.1.104` |
+| Fujitsu - Monitored Endpoint | `192.168.1.102` |
+| Kali Linux - Testing Machine | `192.168.1.103` |
+| Local Network | `192.168.1.0/24` |
 
-Additional Splunk internal and laboratory indexes may exist for platform operations or separate exercises.
+**Relevant communication ports:**
 
-## Communication and Network Configuration
+- `9997/TCP`: Splunk receiving port for forwarded events.
+- `8000/TCP`: Splunk Web interface.
 
-| Source | Destination | Protocol | Port | Purpose |
-|---|---|---|---|---|
-| Fujitsu | Dell | TCP | 9997 | Forwarded event ingestion |
-| Analyst workstation | Dell | TCP | 8000 | Splunk Web access |
+## 4. Architecture and Monitoring Scope
 
-The Universal Forwarder is configured to send events to the Dell system at `192.168.1.104:9997`.
+The current laboratory architecture supports:
 
-The receiving port must be accessible through the Dell firewall for event forwarding to work.
+- Centralized Windows endpoint telemetry collection.
+- Sysmon event monitoring.
+- Process creation and execution analysis.
+- Network connection monitoring.
+- File creation monitoring.
+- PowerShell activity investigation.
+- SPL-based detection searches.
+- Scheduled alert monitoring.
+- SOC Analyst L1 investigation and escalation exercises.
 
-## Monitoring and Detection Layer
+The collected telemetry is primarily stored in the `sysmon` index. Additional Windows event sources and indexes are documented separately where applicable.
 
-Once events are indexed, Splunk Enterprise provides the main monitoring and investigation capabilities.
+## 5. Related Documentation
 
-The SOC homelab includes:
+The architecture documentation is part of the broader SOC home lab project.
 
-- **Detection Engineering:** SPL-based detection rules for authentication, process execution, network activity, and remote access.
-- **Alerting:** Configured alert searches for identifying activity that requires analyst attention.
-- **SOC Dashboard:** A four-tab dashboard covering Summary, Authentication, Process & Execution, and Network & Remote Access.
-- **Incident Investigations:** Documented investigations based on collected telemetry and controlled laboratory scenarios.
+Other relevant sections include:
 
-These capabilities allow the analyst to move from event visibility to detection, triage, investigation, and escalation.
+- [`../detection/README.md`](../detection/README.md) — Detection use cases and SPL queries.
+- [`../investigations/`](../investigations/) — Security investigation reports and incident evidence.
+- [`../procedures/`](../procedures/) — SOC triage and incident response procedures.
+- [`../README.md`](../README.md) — Main SOC home lab documentation.
 
-## Architecture Scope and Limitations
+## 6. Project Scope
 
-This architecture represents a controlled, small-scale SOC laboratory.
+This is an educational SOC home lab, not a production SOC environment.
 
-Its main limitations include:
+Its purpose is to demonstrate practical knowledge of endpoint telemetry collection, SIEM monitoring, detection development, investigation, and incident handling through a controlled environment.
 
-- Monitoring is focused on one Windows endpoint.
-- The testing system and monitored endpoint share the same local network.
-- Detection coverage depends on the configured Sysmon and Windows event sources.
-- The environment does not represent a distributed enterprise network.
-- The laboratory does not provide comprehensive network traffic inspection or enterprise-wide endpoint visibility.
-
-The architecture is intended to demonstrate practical experience with endpoint telemetry, centralized log collection, SIEM monitoring, detection engineering, and SOC investigation workflows.
-
-## Related Documentation
-
-- [Detection Engineering](../detection/README.md)
-- [SOC Dashboard Documentation](../dashboards/README.md)
-
-
-## Project Purpose
-
-This homelab demonstrates the implementation of a basic SOC monitoring environment using freely available or accessible security technologies.
-
-It provides a practical environment for developing SOC Analyst L1 skills, including event analysis, SPL searches, alert triage, endpoint investigation, evidence collection, and incident escalation.
+The architecture and supporting documentation reflect the current laboratory configuration and may be updated as the infrastructure evolves.
