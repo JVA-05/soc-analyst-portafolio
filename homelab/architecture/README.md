@@ -204,7 +204,7 @@ The architecture is intended to demonstrate practical experience with endpoint t
 
 - [Detection Engineering](../detection/README.md)
 - [SOC Dashboard Documentation](../dashboards/README.md)
-- [Incident Investigations](../investigations/README.md)
+
 
 ## Project Purpose
 
