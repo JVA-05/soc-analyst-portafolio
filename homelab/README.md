@@ -210,7 +210,7 @@ The laboratory documentation is organized into the following directories:
 | `configuration/` | Splunk Universal Forwarder and Sysmon configuration |
 | `dashboards/` | Dashboard documentation, individual tabs, and screenshots |
 | `detection/` | Twelve documented SPL detection use cases |
-| `incident-management/investigations/` | Five security investigation reports and supporting evidence |
+| `investigations/` | Five security investigation reports and supporting evidence |
 | `incident-management/` | Incident register and incident tracking documentation |
 | `playbooks/` | Investigation playbooks and operational guidance |
 
