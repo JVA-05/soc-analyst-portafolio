@@ -24,38 +24,6 @@ The lab consists of three primary systems:
 
 All three systems are connected to the same local network.
 
-## Network Architecture
-
-The following diagram illustrates the main systems and their roles within the laboratory.
-
-```mermaid
-flowchart TB
-    subgraph LAB["SOC Homelab — 192.168.1.0/24"]
-        K["Kali Linux<br/>192.168.1.103<br/>Testing System"]
-
-        subgraph ENDPOINT["Monitored Endpoint"]
-            F["Fujitsu — Windows 10 Pro<br/>192.168.1.102"]
-            S["Sysmon<br/>Endpoint Telemetry"]
-            U["Splunk Universal Forwarder<br/>Event Collection"]
-            F --> S
-            S --> U
-        end
-
-        subgraph SIEM["SIEM Infrastructure"]
-            D["Dell — Windows 11<br/>192.168.1.104"]
-            SP["Splunk Enterprise<br/>Indexing and Search"]
-            DE["Detections and Alerts"]
-            DB["SOC Dashboard"]
-            D --> SP
-            SP --> DE
-            SP --> DB
-        end
-
-        K -.->|"Controlled test activity"| F
-        U -->|"TCP 9997"| SP
-    end
-```
-
 ## System Roles
 
 ### 1. Dell — SIEM Server
