@@ -164,8 +164,8 @@ Additional evidence would be required to identify an adversary behavior.
 
 ### 1. SPL Detection Query
 
-![SPL Detection Query](screenshots/DET-008-spl-query.png)
+![SPL Detection Query](../screenshots/DET-008-spl-query.png)
 
 ### 2. Triggered Alert
 
-![Triggered Alert](screenshots/DET-008-triggered-alert.png)
+![Triggered Alert](../screenshots/DET-008-triggered-alert.png)
