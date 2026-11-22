@@ -154,7 +154,7 @@ soc-endpoint-monitoring/
 │
 ├── tabs/
 │   ├── 01-summary.md
-│   ├── 02-auuthentication.md
+│   ├── 02-authentication.md
 │   ├── 03-process-execution.md
 │   └── 04-network.md
 │
