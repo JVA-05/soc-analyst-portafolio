@@ -92,7 +92,6 @@ Other relevant sections include:
 
 - [`../detection/README.md`](../detection/README.md) — Detection use cases and SPL queries.
 - [`../investigations/`](../investigations/) — Security investigation reports and incident evidence.
-- [`../procedures/`](../procedures/) — SOC triage and incident response procedures.
 - [`../README.md`](../README.md) — Main SOC home lab documentation.
 
 ## 6. Project Scope
