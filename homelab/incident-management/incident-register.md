@@ -14,7 +14,7 @@ It tracks incident identification, severity, environment, status, originating de
 | INC-002 | Executable File Creation | Informational | Controlled Lab | Closed | SOC - Executable Created in Downloads | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-002-executable-file-creation.md) | [Issue #2](https://github.com/JVA-05/soc-analyst-portafolio/issues/2) |
 | INC-003 | SMB Brute-Force with Successful Authentication | High | Controlled Lab | Escalated | Multiple Failed Logon Attempts | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-003-smb-brute-force-successful-authentication.md) | [Issue #3](https://github.com/JVA-05/soc-analyst-portafolio/issues/3) |
 | INC-004 | Suspicious WinRM Remote Access | Medium | Controlled Lab | Escalated | Suspicious Remote Access | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-004-suspicious-winrm-remote-access.md) | [Issue #4](https://github.com/JVA-05/soc-analyst-portafolio/issues/4) |
-| INC-005 | Suspicious PowerShell Download | Pending Classification | Controlled Lab | Closed | Suspicious PowerShell Download | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-005-suspicious-powershell-download.md) | Pending |
+| INC-005 | Suspicious PowerShell Download | Medium | Controlled Lab | Closed | Suspicious PowerShell Download | [Investigation Report](https://github.com/JVA-05/soc-analyst-portafolio/blob/main/homelab/investigations/INC-005-suspicious-powershell-download.md) | Pending |
 
 ## Incident Status Definitions
 
